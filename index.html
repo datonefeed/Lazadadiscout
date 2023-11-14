@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ứng dụng Giảm Giá Lazada</title>
+    <!-- Sử dụng thư viện Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        @keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .blinking-text {
+      animation: blink 0.02s infinite;
+    }
+        body {
+            background: linear-gradient(to right, #f30380, #0f156d);
+            font-family: 'Arial', sans-serif;
+            color: #0f156d;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #container {
+            background-color:#fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 400px;
+        }
+
+        h2, .blinking-text {
+            font-weight: 900;
+            font-size: 50px;
+            text-align: center;
+            color: #f30380;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        select, input {
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: #0a4bce !important;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0e1ce4 !important;
+            /* opacity: 0.5; */
+        }
+
+        #result, .blinking-text {
+            margin-top: 15px;
+            font-size: 35px;
+            text-align: center;
+            font-weight: bold;
+            color: #058301;
+            /* background-color: antiquewhite; */
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2 >SALE</h2>
+        <form id="discountForm">
+            <div class="form-group">
+                <label for="membershipType">Loại Thành Viên:</label>
+                <select class="form-control" id="membershipType" name="membershipType">
+                    <option value="moi">Thành viên mới</option>
+                    <option value="vip">Thành viên VIP</option>
+                    <option value="binhThuong">Thành viên bình thường</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="totalBill">Tổng Hóa Đơn Tháng Trước:</label>
+                <input type="number" class="form-control" id="totalBill" name="totalBill" required>
+            </div>
+
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="onlinePayment" name="onlinePayment">
+                <label class="form-check-label" for="onlinePayment">Thanh Toán Trực Tuyến</label>
+            </div>
+
+            <button type="button" class="btn btn-success" onclick="tinhUuDai()">Xem Ưu Đãi</button>
+
+            <p id="result" class="blinking-text"></p>
+        </form>
+    </div>
+
+    <!-- Sử dụng thư viện Bootstrap JS và Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        function tinhUuDai() {
+            const loaiThanhVien = document.getElementById("membershipType").value;
+            const tongHoaDonThangTruoc = parseFloat(document.getElementById("totalBill").value);
+            const thanhToanTrucTuyen = document.getElementById("onlinePayment").checked;
+
+            let uuDai = 0;
+            let uuDaiThongBao = "";
+
+            if (loaiThanhVien === "moi") {
+                uuDai = 0.1;
+                uuDaiThongBao = "Ưu đãi 10% cho thành viên mới";
+            } else if (loaiThanhVien === "vip") {
+                if (tongHoaDonThangTruoc > 10000000) {
+                    uuDai = 0.2;
+                    uuDaiThongBao = "Ưu đãi 20% cho thành viên VIP với hóa đơn trên 10 triệu";
+                } else {
+                    uuDai = 0.08;
+                    uuDaiThongBao = "Ưu đãi 8% cho thành viên VIP";
+                }
+            }
+
+            if (thanhToanTrucTuyen) {
+                uuDai += 0.05;
+                uuDaiThongBao += " và thêm 5% khi thanh toán trực tuyến";
+            }
+
+            document.getElementById("result").innerHTML = uuDaiThongBao;
+        }
+    </script>
+</body>
+</html>
